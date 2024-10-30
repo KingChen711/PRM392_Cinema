@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.prm392_cinema.Models.Seat;
 import com.example.prm392_cinema.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,20 +46,19 @@ public class SeatAdapter extends RecyclerView.Adapter<SeatAdapter.SeatViewHolder
         Seat seat = seatList.get(position);
         updateSeatView(holder, seat);
 
-//        holder.itemView.setOnClickListener(v -> {
-//            Log.d("Index", seat.getIndex() + "");
-//            if (seat.isAvailable()) {
-//                // Đổi trạng thái từ "trống" sang "đã chọn"
-//                this.seatIndexToSelected.put(seat.getIndex(), true);
-//                seat.setStatus(Seat.STATUS_SELECTED);
-//            } else if (seat.isSelected()) {
-//                // Đổi trạng thái từ "đã chọn" sang "trống"
-//                this.seatIndexToSelected.remove(seat.getIndex());
-//                seat.setStatus(Seat.STATUS_AVAILABLE);
-//            }
-//            // Cập nhật lại view khi ghế được chọn
-//            notifyItemChanged(position);
-//        });
+        holder.itemView.setOnClickListener(v -> {
+            if (seat.isAvailable()) {
+                // Đổi trạng thái từ "có sẵn" sang "đã chọn"
+                this.seatIndexToSelected.put(seat.getSeatId(), true);
+                seat.setStatus(Seat.STATUS_SELECTED);
+            } else if (seat.isSelected()) {
+                // Đổi trạng thái từ "đã chọn" sang "trống"
+                this.seatIndexToSelected.remove(seat.getSeatId());
+                seat.setStatus(Seat.STATUS_AVAILABLE);
+            }
+            // Cập nhật lại view khi ghế được chọn
+            notifyItemChanged(position);
+        });
     }
 
     private void updateSeatView(SeatViewHolder holder, Seat seat) {
@@ -75,8 +75,8 @@ public class SeatAdapter extends RecyclerView.Adapter<SeatAdapter.SeatViewHolder
             background.setColor(Color.rgb(187, 187, 187));
             background.setStroke(BORDER_WIDTH, Color.rgb(187, 187, 187));
         } else if (seat.isSelected()) {
-            background.setColor(Color.rgb(177, 21, 0));
-            background.setStroke(BORDER_WIDTH, Color.rgb(177, 21, 0));
+            background.setColor(Color.rgb(243, 234, 40));
+            background.setStroke(BORDER_WIDTH, Color.rgb(243, 234, 40));
         } else if (seat.isNormal()) {
             background.setColor(Color.rgb(255, 255, 255));
             background.setStroke(BORDER_WIDTH, Color.GREEN);
@@ -84,6 +84,17 @@ public class SeatAdapter extends RecyclerView.Adapter<SeatAdapter.SeatViewHolder
             background.setColor(Color.rgb(255, 255, 255));
             background.setStroke(BORDER_WIDTH, Color.RED);
         }
+    }
+
+    public List<Integer> getSelectedSeatId(){
+        List<Integer> result = new ArrayList<>();
+        for (Map.Entry<Integer, Boolean> entry : seatIndexToSelected.entrySet()) {
+            Integer key = entry.getKey();
+            Boolean value = entry.getValue();
+            if(!value) continue;
+            result.add(key);
+        }
+        return result;
     }
 
     @Override
