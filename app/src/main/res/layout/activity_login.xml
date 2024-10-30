@@ -66,7 +66,8 @@
                 android:layout_marginTop="8dp"
                 android:background="@android:color/transparent"
                 android:hint="Nhập tên"
-                android:inputType="text" />
+                android:inputType="text"
+                android:paddingHorizontal="8dp" />
 
             <TextView
                 android:id="@+id/tvPasswordLogin"
@@ -85,10 +86,9 @@
                 android:background="@android:color/transparent"
                 android:hint="Nhập mật khẩu"
                 android:inputType="textPassword"
+                android:paddingHorizontal="8dp"
                 tools:ignore="HardcodedText" />
-
         </LinearLayout>
-
     </androidx.cardview.widget.CardView>
 
     <Button
