@@ -1,10 +1,19 @@
 package com.example.prm392_cinema;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +31,10 @@ import com.example.prm392_cinema.Services.ApiClient;
 import com.example.prm392_cinema.Services.FabService;
 import com.example.prm392_cinema.Services.MovieService;
 import com.example.prm392_cinema.Utils.DateGroup;
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.ui.PlayerControlView;
+import com.google.android.exoplayer2.ui.PlayerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +45,7 @@ import retrofit2.Response;
 
 public class MovieDetailActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
+    private ExoPlayer player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +56,34 @@ public class MovieDetailActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.datesRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        getMovies();
+        getMovieDetail();
         getShowtimes(this);
     }
 
-    private void getMovies() {
+    private void showVideoPopup(String videoUrl) {
+        // Tạo dialog hiển thị video
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.popup_video);
+
+        // Lấy PlayerView từ layout
+        PlayerControlView playerView = dialog.findViewById(R.id.playerView);
+
+        // Khởi tạo ExoPlayer
+        player = new ExoPlayer.Builder(this).build();
+        playerView.setPlayer(player);
+
+        // Tạo MediaItem từ URL và phát video
+        MediaItem mediaItem = MediaItem.fromUri(Uri.parse(videoUrl));
+        player.setMediaItem(mediaItem);
+        player.prepare();
+        player.setPlayWhenReady(true);
+
+        // Hiển thị dialog
+        dialog.setOnDismissListener(dialogInterface -> player.release()); // Giải phóng tài nguyên khi dialog đóng
+        dialog.show();
+    }
+
+    private void getMovieDetail() {
         MovieService apiService = ApiClient.getRetrofitInstance().create(MovieService.class);
 
         // Call API with a query parameter
@@ -66,6 +103,14 @@ public class MovieDetailActivity extends AppCompatActivity {
                 ((TextView) findViewById(R.id.duration)).setText("Thời lượng: " + res.duration + " phút");
                 ((TextView) findViewById(R.id.rating)).setText(res.rating + "");
                 ((TextView) findViewById(R.id.genre)).setText("Thể loại: " + res.genre);
+
+                LinearLayout buttonTrailer = findViewById(R.id.btnTrailer);
+                buttonTrailer.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showVideoPopup(res.linkTrailer);
+                    }
+                });
             }
 
             @Override
@@ -104,5 +149,13 @@ public class MovieDetailActivity extends AppCompatActivity {
                 Log.d("callAPI", t.getMessage());
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (player != null) {
+            player.release(); // Giải phóng tài nguyên khi Activity bị hủy
+        }
     }
 }
