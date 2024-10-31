@@ -20,7 +20,6 @@
             android:id="@+id/hallTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:text="CHỌN GHẾ - RẠP 01"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
@@ -30,16 +29,30 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/showTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:paddingLeft="16dp"
+            android:text="Ngày chiếu: Thứ Bảy, 30/11/2024, 15:30 giờ"
+            android:textAlignment="viewStart"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/hallTitle" />
+
         <HorizontalScrollView
             android:id="@+id/horizontalScrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:padding="16dp"
+            android:paddingHorizontal="16dp"
             android:fillViewport="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/hallTitle">
+            app:layout_constraintTop_toBottomOf="@id/showTime">
 
             <!-- RecyclerView for seat selection -->
             <androidx.recyclerview.widget.RecyclerView
