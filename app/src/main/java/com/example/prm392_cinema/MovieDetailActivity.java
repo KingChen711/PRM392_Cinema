@@ -104,13 +104,13 @@ public class MovieDetailActivity extends AppCompatActivity {
                 ((TextView) findViewById(R.id.rating)).setText(res.rating + "");
                 ((TextView) findViewById(R.id.genre)).setText("Thể loại: " + res.genre);
 
-                LinearLayout buttonTrailer = findViewById(R.id.btnTrailer);
-                buttonTrailer.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showVideoPopup(res.linkTrailer);
-                    }
-                });
+//                LinearLayout buttonTrailer = findViewById(R.id.btnTrailer);
+//                buttonTrailer.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        showVideoPopup(res.linkTrailer);
+//                    }
+//                });
             }
 
             @Override

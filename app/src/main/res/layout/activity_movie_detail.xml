@@ -43,35 +43,35 @@
                 android:scaleType="centerCrop"
                 app:srcCompat="@drawable/movie_demo" />
 
-            <LinearLayout
-                android:id="@+id/btnTrailer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/rounded_background"
-                android:backgroundTint="#EFD838"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/movieImg">
+<!--            <LinearLayout-->
+<!--                android:id="@+id/btnTrailer"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="12dp"-->
+<!--                android:background="@drawable/rounded_background"-->
+<!--                android:backgroundTint="#EFD838"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:padding="8dp"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/movieImg">-->
 
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="30dp"
-                    android:layout_height="24dp"
-                    app:srcCompat="@drawable/trailer" />
+<!--                <ImageView-->
+<!--                    android:id="@+id/imageView"-->
+<!--                    android:layout_width="30dp"-->
+<!--                    android:layout_height="24dp"-->
+<!--                    app:srcCompat="@drawable/trailer" />-->
 
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:text="Trailer"
-                    android:textColor="#fff"
-                    android:textSize="16sp" />
+<!--                <TextView-->
+<!--                    android:id="@+id/textView"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="4dp"-->
+<!--                    android:text="Trailer"-->
+<!--                    android:textColor="#fff"-->
+<!--                    android:textSize="16sp" />-->
 
-            </LinearLayout>
+<!--            </LinearLayout>-->
         </LinearLayout>
 
         <LinearLayout
