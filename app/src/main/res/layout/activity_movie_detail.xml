@@ -12,153 +12,175 @@
         android:id="@+id/logo"
         android:layout_width="100dp"
         android:layout_height="54dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo" />
 
-    <ImageView
-        android:id="@+id/movieImg"
-        android:layout_width="160dp"
-        android:layout_height="220dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="28dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo"
-        app:srcCompat="@drawable/movie_demo" />
-
     <LinearLayout
         android:id="@+id/movieInfo"
-        android:layout_width="190dp"
-        android:layout_height="220dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="8dp"
-        android:orientation="vertical"
-        android:padding="8dp"
+        android:paddingHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/movieImg"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logo">
 
-        <!-- Movie Title -->
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="4dp"
-            android:text="Movie Title"
-            android:textColor="#fff"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <!-- Description -->
-        <TextView
-            android:id="@+id/description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="3"
-            android:paddingBottom="8dp"
-            android:text="This is a brief description of the movie. It gives an overview of the storyline."
-            android:textColor="#fff"
-            android:textSize="12sp" />
-
-        <!-- Release Date -->
-        <TextView
-            android:id="@+id/release"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="4dp"
-            android:text="Release Date: 2024-01-01"
-            android:textColor="#FFFFFF"
-            android:textSize="14sp" />
-
-        <!-- Duration -->
-        <TextView
-            android:id="@+id/duration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="4dp"
-            android:text="Duration: 2h 14m"
-            android:textColor="#fff"
-            android:textSize="14sp" />
-
-        <!-- Rating with Star Icon -->
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingBottom="4dp">
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/logo">
 
             <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@drawable/star"
-                android:tint="#FFD700"
-                tools:ignore="UseAppTint" />
+                android:id="@+id/movieImg"
+                android:layout_width="130dp"
+                android:layout_height="180dp"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/movie_demo" />
 
-            <TextView
-                android:id="@+id/rating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="4dp"
-                android:text="4.5"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp" />
+<!--            <LinearLayout-->
+<!--                android:id="@+id/btnTrailer"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="12dp"-->
+<!--                android:background="@drawable/rounded_background"-->
+<!--                android:backgroundTint="#EFD838"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:padding="8dp"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/movieImg">-->
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/imageView"-->
+<!--                    android:layout_width="30dp"-->
+<!--                    android:layout_height="24dp"-->
+<!--                    app:srcCompat="@drawable/trailer" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/textView"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="4dp"-->
+<!--                    android:text="Trailer"-->
+<!--                    android:textColor="#fff"-->
+<!--                    android:textSize="16sp" />-->
+
+<!--            </LinearLayout>-->
         </LinearLayout>
 
-        <!-- Genre -->
-        <TextView
-            android:id="@+id/genre"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:paddingBottom="4dp"
-            android:text="Genre: Action, Drama"
-            android:textColor="#FFFFFF"
-            android:textSize="14sp" />
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout"
+            app:layout_constraintTop_toBottomOf="@+id/logo">
 
-        <!-- Language -->
-        <TextView
-            android:id="@+id/language"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Language: English"
-            android:textColor="#FFFFFF"
-            android:textSize="14sp" />
+            <!-- Movie Title -->
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="4dp"
+                android:text="Movie Title"
+                android:textColor="#fff"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
+            <!-- Description -->
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:paddingBottom="8dp"
+                android:text="This is a brief description of the movie. It gives an overview of the storyline."
+                android:textColor="#fff"
+                android:textSize="12sp" />
+
+            <!-- Release Date -->
+            <TextView
+                android:id="@+id/release"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="4dp"
+                android:text="Release Date: 2024-01-01"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+
+            <!-- Duration -->
+            <TextView
+                android:id="@+id/duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="4dp"
+                android:text="Duration: 2h 14m"
+                android:textColor="#fff"
+                android:textSize="14sp" />
+
+            <!-- Rating with Star Icon -->
+            <LinearLayout
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="4dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Đánh giá:"
+                    android:textColor="@color/white"/>
+
+                <TextView
+                    android:id="@+id/rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="1dp"
+                    android:text="4.5"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp" />
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/star"
+                    android:tint="#FFD700"
+                    tools:ignore="UseAppTint" />
+            </LinearLayout>
+
+            <!-- Genre -->
+            <TextView
+                android:id="@+id/genre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="4dp"
+                android:text="Genre: Action, Drama"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+
+            <!-- Language -->
+            <TextView
+                android:id="@+id/language"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Language: English"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+
+        </LinearLayout>
     </LinearLayout>
-
     <!-- Trailer and Arrow Icon Container -->
-    <LinearLayout
-        android:id="@+id/btnTrailer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/movieImg">
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="40dp"
-            android:layout_height="32dp"
-            app:srcCompat="@drawable/arrow_right" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="Trailer"
-            android:textColor="#fff"
-            android:textSize="16sp" />
-
-    </LinearLayout>
 
     <TextView
         android:id="@+id/tvShowTime"
@@ -166,172 +188,22 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Show Time"
+        android:text="Lịch chiếu"
         android:textColor="#EFD838"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnTrailer" />
+        app:layout_constraintTop_toBottomOf="@+id/movieInfo" />
 
-    <LinearLayout
-        android:layout_width="370dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/datesRecyclerView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="#1D1A1A"
-        android:backgroundTint="#84897C"
-        android:orientation="vertical"
-        android:padding="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        android:scrollbars="horizontal"
+        app:layout_constraintEnd_toStartOf="@+id/logo"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvShowTime">
-
-        <!-- Show Date Row -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="4dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Show Date: "
-                android:textColor="#FFFFFF"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/showDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="31/10/2024"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <!-- Hall Name, Total Seats, and Seat Price Rows... (same as above) -->
-
-        <!-- Hall Name Row -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="4dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Hall Name: "
-                android:textColor="#FFFFFF"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/hallName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="VIP Hall"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <!-- Total Seats Row -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="4dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Total Seats: "
-                android:textColor="#FFFFFF"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/totalSeat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="50"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <!-- Seat Price Row -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Seat Price: "
-                android:textColor="#FFFFFF"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/seatPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="$15"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp" />
-        </LinearLayout>
-        <!-- Show Times Row -->
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="none">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="46dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/timeButton1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:backgroundTint="#84897C"
-                    android:text="9:00 AM"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14sp" />
-
-                <Button
-                    android:id="@+id/timeButton2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:backgroundTint="#84897C"
-                    android:text="11:30 AM"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14sp" />
-
-                <Button
-                    android:id="@+id/timeButton3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:backgroundTint="#84897C"
-                    android:text="2:00 PM"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14sp" />
-
-                <Button
-                    android:id="@+id/timeButton4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="#84897C"
-                    android:text="5:30 PM"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14sp" />
-            </LinearLayout>
-        </HorizontalScrollView>
-
-
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/tvShowTime" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
