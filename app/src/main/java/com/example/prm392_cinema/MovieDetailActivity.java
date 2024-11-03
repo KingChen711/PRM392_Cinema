@@ -2,40 +2,25 @@ package com.example.prm392_cinema;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm392_cinema.Adapters.DateAdapter;
-import com.example.prm392_cinema.Adapters.FabAdapter;
-import com.example.prm392_cinema.Models.Fab;
 import com.example.prm392_cinema.Models.Showtime;
 import com.example.prm392_cinema.Services.ApiClient;
-import com.example.prm392_cinema.Services.FabService;
 import com.example.prm392_cinema.Services.MovieService;
-import com.example.prm392_cinema.Utils.DateGroup;
+import com.example.prm392_cinema.DateUtils.DateGroup;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.ui.PlayerControlView;
-import com.google.android.exoplayer2.ui.PlayerView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm392_cinema.MainActivity;
 import com.example.prm392_cinema.Models.Movie;
+import com.example.prm392_cinema.MovieDetailActivity;
 import com.example.prm392_cinema.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -43,6 +45,7 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.BannerView
         holder.genreTextView.setText(movie.getGenre());
         holder.imageView.setImageResource(R.drawable.conan_movie);
         holder.durationTextView.setText(String.valueOf(movie.getDuration()) + "m");
+        Picasso.get().load(movie.getPosterUrl()).into(holder.imageView);
         // Nếu poster là một URL, sử dụng Glide để tải ảnh
 //        Glide.with(context)
 //                .load(movie.getPoster()) // Đảm bảo URL hợp lệ
@@ -51,7 +54,7 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.BannerView
 
         // Xử lý khi nhấn vào nút "Xem chi tiết"
         holder.button.setOnClickListener(v -> {
-            Intent intent = new Intent(context, MainActivity.class);
+            Intent intent = new Intent(context, MovieDetailActivity.class);
             intent.putExtra("movieId", movie.getMovieId()); // Truyền đối tượng Movie sang Activity mới
             context.startActivity(intent);
         });

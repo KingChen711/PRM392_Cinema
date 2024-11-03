@@ -74,7 +74,7 @@ public class FabAdapter extends RecyclerView.Adapter<FabAdapter.FabViewHolder> {
         });
     }
 
-    public FabService.OrderFabDto getOrderFabDto() {
+    public List<FabService.FabOrderDto> getOrderFabDto() {
         List<FabService.FabOrderDto> list = new ArrayList<>();
         for (Map.Entry<Integer, Integer> entry : fabIdToAmount.entrySet()) {
             Integer key = entry.getKey();
@@ -83,7 +83,7 @@ public class FabAdapter extends RecyclerView.Adapter<FabAdapter.FabViewHolder> {
 
             list.add(new FabService.FabOrderDto(key, value));
         }
-        return new FabService.OrderFabDto(list);
+        return list;
     }
 
     @Override
