@@ -43,6 +43,7 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.BannerView
         holder.titleTextView.setText(movie.getTitle());
         holder.ratingTextView.setText(String.valueOf(movie.getRating()));
         holder.genreTextView.setText(movie.getGenre());
+        holder.imageView.setImageResource(R.drawable.conan_movie);
         holder.durationTextView.setText(String.valueOf(movie.getDuration()) + "m");
         Picasso.get().load(movie.getPosterUrl()).into(holder.imageView);
         // Nếu poster là một URL, sử dụng Glide để tải ảnh
