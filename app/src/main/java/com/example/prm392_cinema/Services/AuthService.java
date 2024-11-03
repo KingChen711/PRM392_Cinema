@@ -21,12 +21,32 @@ public interface AuthService {
         }
     }
 
-    public class LoginResponseDto{
+    public class LoginResponseDto {
         public boolean success;
         public LoginUserDto result;
     }
 
-    public class LoginUserDto{
+    public class LoginUserDto {
         public int userId;
+    }
+
+    @POST("/api/user/sign-up")
+    Call<SignUpResponseDto> signUp(@Body SignUpDto dto);
+
+    public class SignUpDto {
+        public String username;
+        public String email;
+        public String password;
+
+        public SignUpDto(String username, String email, String password) {
+            this.username = username;
+            this.email = email;
+            this.password = password;
+        }
+    }
+
+    public class SignUpResponseDto {
+        public boolean success;
+        public LoginUserDto result;
     }
 }
