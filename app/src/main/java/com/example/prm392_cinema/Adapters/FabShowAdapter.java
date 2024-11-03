@@ -13,10 +13,10 @@ import com.example.prm392_cinema.Services.BookingService;
 
 import java.util.List;
 
-public class FabAdapter extends RecyclerView.Adapter<FabAdapter.FabDetailViewHolder> {
+public class FabShowAdapter extends RecyclerView.Adapter<FabShowAdapter.FabDetailViewHolder> {
     private List<BookingService.FabDetail> fabDetails;
 
-    public FabAdapter(List<BookingService.FabDetail> fabDetails) {
+    public FabShowAdapter(List<BookingService.FabDetail> fabDetails) {
         this.fabDetails = fabDetails;
     }
 
@@ -24,7 +24,7 @@ public class FabAdapter extends RecyclerView.Adapter<FabAdapter.FabDetailViewHol
     @Override
     public FabDetailViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fab_item, parent, false);
+                .inflate(R.layout.fab_item_show, parent, false);
         return new FabDetailViewHolder(view);
     }
 
