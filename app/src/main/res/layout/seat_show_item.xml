@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    android:gravity="fill_horizontal|center">
 
     <!-- Seat Layout -->
     <RelativeLayout
         android:id="@+id/seatLayout"
         android:layout_width="45dp"
         android:layout_height="30dp"
-        android:layout_margin="10dp"
-        android:layout_marginStart="16dp"
         android:background="@drawable/seat_border"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -38,27 +37,25 @@
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
         android:text="Ghế thường"
-        android:textColor="#333333"
+        android:textColor="#fff"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/seatLayout"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/price"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="104dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="42dp"
+        android:layout_marginStart="12dp"
+        android:layout_weight="1"
+        android:textColor="#fff"
         android:text="70.000 VND"
-        android:textColor="@color/black"
+        android:textAlignment="viewEnd"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/name"
         app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

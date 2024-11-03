@@ -79,16 +79,12 @@ public class OrderPaymentActivity extends AppCompatActivity {
         seatShowAdapter = new SeatShowAdapter(seatDetailList);
         recyclerSeat.setAdapter(seatShowAdapter);
         btnPay = findViewById(R.id.buttonThanhToan);
-//        String orderId = getIntent().getStringExtra("orderId");
 
-        orderId = "1";
+//        if (getIntent() == null) return;
+//        orderId = getIntent().getStringExtra("orderId");
+        orderId="13";
 
-        if (orderId != null) {
-            loadOrderDetails(orderId);
-        } else {
-            Toast.makeText(this, "Order ID không hợp lệ!", Toast.LENGTH_SHORT).show();
-        }
-
+        loadOrderDetails(orderId);
 
         StrictMode.ThreadPolicy policy = new
                 StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -101,7 +97,7 @@ public class OrderPaymentActivity extends AppCompatActivity {
             public void onClick(View v) {
                 CreateOrder orderApi = new CreateOrder();
                 try {
-                    JSONObject data = orderApi.createOrder(total+ "");
+                    JSONObject data = orderApi.createOrder(total + "");
 
 //                    lblZpTransToken.setVisibility(View.VISIBLE);
                     String code = data.getString("return_code");
@@ -150,7 +146,6 @@ public class OrderPaymentActivity extends AppCompatActivity {
 
                                 });
                                 IsLoading();
-
 
 
                             }

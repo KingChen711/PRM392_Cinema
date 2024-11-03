@@ -30,7 +30,11 @@ public interface FabService {
 
 
     @POST("/api/fab/order/{orderId}")
-    Call orderFabs(@Path("orderId") int orderId, @Body OrderFabDto dto);
+    Call<OrderFabsResponse> orderFabs(@Path("orderId") int orderId, @Body OrderFabDto dto);
+
+    public class OrderFabsResponse{
+
+    }
 
     public class OrderFabDto {
         public List<FabOrderDto> listFABOrder;

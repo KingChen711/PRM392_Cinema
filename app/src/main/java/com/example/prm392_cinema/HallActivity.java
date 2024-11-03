@@ -84,7 +84,15 @@ public class HallActivity extends AppCompatActivity {
         });
     }
 
+    private void navigateToPaymentScreen(int bookingId)
+    {
+        Intent intent = new Intent(HallActivity.this, OrderPaymentActivity.class);
+        intent.putExtra("orderId", bookingId + "");
+        startActivity(intent);
+    }
+
     private void createBooking() {
+        Context context = this;
         List<Integer> selectedSeats = seatAdapter.getSelectedSeatId();
 
         if (selectedSeats.isEmpty()) {
@@ -94,7 +102,7 @@ public class HallActivity extends AppCompatActivity {
         HallScreenStore.listSeatId = selectedSeats;
 
         BookingService bookingService = ApiClient.getRetrofitInstance().create(BookingService.class);
-        Call<BookingService.CreateBookingResponseDto> call = bookingService.createBooking(new BookingService.CreateBookingDto(AuthStore.userId, HallScreenStore.showTimeId, selectedSeats, seatAdapter.getTotalPrice()));
+        Call<BookingService.CreateBookingResponseDto> call = bookingService.createBooking(new BookingService.CreateBookingDto(1, HallScreenStore.showTimeId, selectedSeats, seatAdapter.getTotalPrice()));
         call.enqueue(new Callback<BookingService.CreateBookingResponseDto>() {
             @Override
             public void onResponse(Call<BookingService.CreateBookingResponseDto> call, Response<BookingService.CreateBookingResponseDto> response) {
@@ -102,25 +110,24 @@ public class HallActivity extends AppCompatActivity {
                 int bookingId = response.body().result.data.bookingId;
 
                 FabService fabService = ApiClient.getRetrofitInstance().create(FabService.class);
-                Call call2 = fabService.orderFabs(bookingId, new FabService.OrderFabDto(fabAdapter.getOrderFabDto()));
-                call2.enqueue(new Callback() {
+                Call<FabService.OrderFabsResponse> call2 = fabService.orderFabs(bookingId, new FabService.OrderFabDto(fabAdapter.getOrderFabDto()));
+                Log.d("Fail booking", "Fail booking");
+                call2.enqueue(new Callback<FabService.OrderFabsResponse>() {
                     @Override
-                    public void onResponse(Call call, Response response) {
-                        Intent intent = new Intent(HallActivity.this, MovieDetailActivity.class);
-                        intent.putExtra("bookingId", bookingId);
-                        startActivity(intent);
+                    public void onResponse(Call<FabService.OrderFabsResponse> call, Response<FabService.OrderFabsResponse> response) {
+                        navigateToPaymentScreen(bookingId);
                     }
 
                     @Override
                     public void onFailure(Call call, Throwable t) {
-
+                        Log.d("Fail booking", "Fail booking");
                     }
                 });
             }
 
             @Override
             public void onFailure(Call<BookingService.CreateBookingResponseDto> call, Throwable t) {
-
+                Log.d("Fail booking", "Fail booking");
             }
         });
     }

@@ -22,6 +22,9 @@
             android:name=".HistoryOrder"
             android:exported="false" />
         <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".MovieDetailActivity"
             android:exported="true" />
         <activity
@@ -29,15 +32,15 @@
             android:exported="false" />
         <activity
             android:name=".HallActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".PaymentNotification"
             android:exported="true" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".HomeActivity"
             android:exported="true" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".OrderPaymentActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

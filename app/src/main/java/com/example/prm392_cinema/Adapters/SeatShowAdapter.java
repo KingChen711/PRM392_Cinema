@@ -1,9 +1,13 @@
 package com.example.prm392_cinema.Adapters;
+
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,6 +15,7 @@ import com.example.prm392_cinema.R;
 import com.example.prm392_cinema.Services.BookingService;
 
 import java.util.List;
+import java.util.Objects;
 
 public class SeatShowAdapter extends RecyclerView.Adapter<SeatShowAdapter.ViewHolder> {
 
@@ -29,11 +34,21 @@ public class SeatShowAdapter extends RecyclerView.Adapter<SeatShowAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        BookingService.SeatDetail seat  = seatList.get(position);
+        BookingService.SeatDetail seat = seatList.get(position);
         Log.d("CALL", seat.seatNumber);
         holder.txtSeatName.setText(seat.seatNumber);
         holder.typeName.setText(seat.seatType);
         holder.price.setText(seat.seatPrice + " VND");
+
+        GradientDrawable background = (GradientDrawable) holder.seatStyle.getBackground();
+
+        if (Objects.equals(seat.seatType, "Ghế Thường")) {
+            background.setColor(Color.rgb(255, 255, 255));
+            background.setStroke(6, Color.GREEN);
+        } else {
+            background.setColor(Color.rgb(255, 255, 255));
+            background.setStroke(6, Color.RED);
+        }
     }
 
     @Override
@@ -43,14 +58,14 @@ public class SeatShowAdapter extends RecyclerView.Adapter<SeatShowAdapter.ViewHo
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView txtSeatName, typeName, price;
+        View seatStyle;
 
         public ViewHolder(View itemView) {
             super(itemView);
             txtSeatName = itemView.findViewById(R.id.seatId);
             typeName = itemView.findViewById(R.id.name);
             price = itemView.findViewById(R.id.price);
-
-
+            seatStyle = itemView.findViewById(R.id.seatLayout);
         }
     }
 }
