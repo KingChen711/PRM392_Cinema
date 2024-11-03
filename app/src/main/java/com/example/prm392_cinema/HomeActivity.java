@@ -69,12 +69,6 @@ public class HomeActivity extends AppCompatActivity {
         bannerAdapter = new BannerAdapter(this, bannerMovies);
         viewPager.setAdapter(bannerAdapter);
 
-        TabLayout tabLayout = findViewById(R.id.tabDots);
-        new TabLayoutMediator(tabLayout, viewPager,
-                (tab, position) -> {
-//                    tab.setCustomView(R.layout.tab_custom_view);
-                }).attach();
-
         genreSpinner = findViewById(R.id.genreSpinner);
         languageSpinner = findViewById(R.id.languageSpinner);
         filterButton = findViewById(R.id.filterButton);
@@ -97,16 +91,16 @@ public class HomeActivity extends AppCompatActivity {
         getTopMovies();
         getMovies("", "");
 
-//        runnable = new Runnable() {
-//            @Override
-//            public void run() {
-//                int nextItem = (viewPager.getCurrentItem() + 1) % bannerMovies.size();
-//                viewPager.setCurrentItem(nextItem);
-//                handler.postDelayed(this, 3000);
-//            }
-//        };
-//        handler.postDelayed(runnable, 3000);
-//
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                int nextItem = (viewPager.getCurrentItem() + 1) % bannerMovies.size();
+                viewPager.setCurrentItem(nextItem);
+                handler.postDelayed(this, 3000);
+            }
+        };
+        handler.postDelayed(runnable, 3000);
+
         filterButton = findViewById(R.id.filterButton);
         filterButton.setOnClickListener(v->  {
             String selectedGenre = genreSpinner.getSelectedItem().toString();
@@ -194,16 +188,22 @@ public class HomeActivity extends AppCompatActivity {
             public void onResponse(Call<List<Movie>> call, Response<List<Movie>> response) {
                 Log.d("callAPI", "Done");
                 if (response.isSuccessful() && response.body() != null) {
-                    List<Movie> movies1 = response.body();
-                    if (movies1.size() == 0){
+                    List<Movie> movies = response.body();
+                    if (movies.size() == 0){
                         return;
                     }
-                    Collections.sort(movies1, (m1, m2) -> Float.compare(m2.getRating(), m1.getRating()));
+                    Collections.sort(movies, (m1, m2) -> Float.compare(m2.getRating(), m1.getRating()));
 
                     List<Movie> topMovies = movies.subList(0, Math.min(3, movies.size()));
                     bannerMovies.clear();
                     bannerMovies.addAll(topMovies);
                     bannerAdapter.notifyDataSetChanged();
+
+                    TabLayout tabLayout = findViewById(R.id.tabDots);
+                    new TabLayoutMediator(tabLayout, viewPager,
+                            (tab, position) -> {
+//                    tab.setCustomView(R.layout.tab_custom_view);
+                            }).attach();
                 }
                 Log.d("callAPI", "Done");
 
