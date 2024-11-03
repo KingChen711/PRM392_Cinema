@@ -85,7 +85,8 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 AuthStore.userId = res.result.userId;
-                Log.d("Login", "Login success with userId: " + AuthStore.userId);
+                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                startActivity(intent);
             }
 
             @Override

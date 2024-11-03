@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm392_cinema.Models.Movie;
 import com.example.prm392_cinema.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -44,6 +45,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         holder.ratingTextView.setText(String.valueOf(movie.getRating()));
         holder.genreTextView.setText(movie.getGenre());
         holder.posterImageView.setImageResource(R.drawable.conan_movie);
+        Picasso.get().load(movie.getPosterUrl()).into(holder.posterImageView);
 
         // Sử dụng Glide để tải ảnh poster từ URL
 //        Glide.with(context)

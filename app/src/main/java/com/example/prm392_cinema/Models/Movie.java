@@ -11,8 +11,9 @@ public class Movie {
     private String language;
     private String genre;
     private String linkTrailerl;
+    private String posterUrl;
 
-    public Movie(int movieId, String title, String description, String releaseDate, float rating, int duration, String language, String genre, String linkTrailerl) {
+    public Movie(int movieId, String title, String description, String releaseDate, float rating, int duration, String language, String genre, String linkTrailerl, String getPosterUrl) {
         this.movieId = movieId;
         this.title = title;
         this.description = description;
@@ -22,6 +23,15 @@ public class Movie {
         this.language = language;
         this.genre = genre;
         this.linkTrailerl = linkTrailerl;
+        this.posterUrl = getPosterUrl;
+    }
+
+    public String getPosterUrl() {
+        return posterUrl;
+    }
+
+    public void setPosterUrl(String getPosterUrl) {
+        this.posterUrl = getPosterUrl;
     }
 
     public int getMovieId() {

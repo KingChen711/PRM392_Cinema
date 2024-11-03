@@ -87,7 +87,7 @@ public class HomeActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         movieAdapter = new MovieAdapter(this, movies, movie -> {
             // Chuyển sang MovieDetailActivity khi nhấn vào item
-            Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+            Intent intent = new Intent(HomeActivity.this, MovieDetailActivity.class);
             intent.putExtra("movieId", movie.getMovieId());
             startActivity(intent);
         });
@@ -97,16 +97,16 @@ public class HomeActivity extends AppCompatActivity {
         getTopMovies();
         getMovies("", "");
 
-        runnable = new Runnable() {
-            @Override
-            public void run() {
-                int nextItem = (viewPager.getCurrentItem() + 1) % bannerMovies.size();
-                viewPager.setCurrentItem(nextItem);
-                handler.postDelayed(this, 3000);
-            }
-        };
-        handler.postDelayed(runnable, 3000);
-
+//        runnable = new Runnable() {
+//            @Override
+//            public void run() {
+//                int nextItem = (viewPager.getCurrentItem() + 1) % bannerMovies.size();
+//                viewPager.setCurrentItem(nextItem);
+//                handler.postDelayed(this, 3000);
+//            }
+//        };
+//        handler.postDelayed(runnable, 3000);
+//
         filterButton = findViewById(R.id.filterButton);
         filterButton.setOnClickListener(v->  {
             String selectedGenre = genreSpinner.getSelectedItem().toString();
