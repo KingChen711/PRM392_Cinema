@@ -23,6 +23,7 @@ public interface MovieService {
         public String genre;
         public String language;
         public String linkTrailer;
+        public String posterUrl;
     }
 
     @GET("/api/showtimes")

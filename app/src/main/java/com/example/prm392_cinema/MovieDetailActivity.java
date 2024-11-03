@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
@@ -35,6 +36,7 @@ import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.ui.PlayerControlView;
 import com.google.android.exoplayer2.ui.PlayerView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,6 +105,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                 ((TextView) findViewById(R.id.duration)).setText("Thời lượng: " + res.duration + " phút");
                 ((TextView) findViewById(R.id.rating)).setText(res.rating + "");
                 ((TextView) findViewById(R.id.genre)).setText("Thể loại: " + res.genre);
+                Picasso.get().load(res.posterUrl).into((ImageView)findViewById(R.id.movieImg));
 
 //                LinearLayout buttonTrailer = findViewById(R.id.btnTrailer);
 //                buttonTrailer.setOnClickListener(new View.OnClickListener() {

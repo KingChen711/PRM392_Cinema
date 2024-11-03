@@ -44,4 +44,5 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.flexbox)
     implementation(libs.exoplayer)
+    implementation (libs.picasso)
 }
