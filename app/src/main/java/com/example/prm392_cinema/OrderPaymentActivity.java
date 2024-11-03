@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,16 +13,27 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm392_cinema.Adapters.FabShowAdapter;
+import com.example.prm392_cinema.Adapters.SeatShowAdapter;
+import com.example.prm392_cinema.Models.Movie;
 import com.example.prm392_cinema.Payment.Api.CreateOrder;
+import com.example.prm392_cinema.Services.ApiClient;
 import com.example.prm392_cinema.Services.BookingService;
+import com.example.prm392_cinema.Services.MovieService;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import vn.zalopay.sdk.Environment;
 import vn.zalopay.sdk.ZaloPayError;
 import vn.zalopay.sdk.ZaloPaySDK;
@@ -29,46 +41,59 @@ import vn.zalopay.sdk.listeners.PayOrderListener;
 
 public class OrderPaymentActivity extends AppCompatActivity {
     Button btnPay;
-    TextView userName, hallName, movieName, showDate, bookingDate, seatNames, status, totalPrice;
+    TextView userName, hallName, movieName, showDate, bookingDate, status, totalPrice, nonFab;
 
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerFab, recyclerSeat;
     private FabShowAdapter fabDetailAdapter;
+    private SeatShowAdapter seatShowAdapter;
     private List<BookingService.FabDetail> fabDetailList;
+    private List<BookingService.SeatDetail> seatDetailList;
+    MutableLiveData<BookingService.BookingDetailDTO> orderLiveData;
+    String orderId;
+    Number total;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_payment);
+        userName = findViewById(R.id.txtUserName);
+        hallName = findViewById(R.id.txtHallName);
+        movieName = findViewById(R.id.txtMovieName);
+        showDate = findViewById(R.id.txtShowDate);
+        bookingDate = findViewById(R.id.txtBookingDate);
+        status = findViewById(R.id.status);
+        totalPrice = findViewById(R.id.totalPrice);
+        recyclerFab = findViewById(R.id.fabRecyclerViewOrder);
+        recyclerSeat = findViewById(R.id.seatRecyclerViewOrder);
+        nonFab = findViewById(R.id.nonFAB);
+        nonFab.setVisibility(View.GONE);
 
-        String orderId = getIntent().getStringExtra("orderId");
+        recyclerFab.setLayoutManager(new LinearLayoutManager(this));
+        recyclerSeat.setLayoutManager(new LinearLayoutManager(this));
 
+        fabDetailList = new ArrayList<>();
+        fabDetailAdapter = new FabShowAdapter(fabDetailList);
+        recyclerFab.setAdapter(fabDetailAdapter);
 
-//        if (orderId != null) {
-//            loadOrderDetails(orderId);
-//        } else {
-//            Toast.makeText(this, "Order ID không hợp lệ!", Toast.LENGTH_SHORT).show();
-//        }
-
-
+        seatDetailList = new ArrayList<>();
+        seatShowAdapter = new SeatShowAdapter(seatDetailList);
+        recyclerSeat.setAdapter(seatShowAdapter);
         btnPay = findViewById(R.id.buttonThanhToan);
+//        String orderId = getIntent().getStringExtra("orderId");
+
+        orderId = "1";
+
+        if (orderId != null) {
+            loadOrderDetails(orderId);
+        } else {
+            Toast.makeText(this, "Order ID không hợp lệ!", Toast.LENGTH_SHORT).show();
+        }
 
 
         StrictMode.ThreadPolicy policy = new
                 StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
-        // ZaloPay SDK Init
         ZaloPaySDK.init(2553, Environment.SANDBOX);
-
-//        Intent intent = getIntent();
-//
-//        txtQuantity.setText(intent.getStringExtra("quantity"));
-//
-//        Double total = intent.getDoubleExtra("total", (double) 0);
-//        String totalString = String.format("%.0f", total);
-
-//        txtTotal.setText("1000");
-//        txtTotal.setText(Double.toString(total));
 
 
         btnPay.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +101,7 @@ public class OrderPaymentActivity extends AppCompatActivity {
             public void onClick(View v) {
                 CreateOrder orderApi = new CreateOrder();
                 try {
-                    JSONObject data = orderApi.createOrder(10000+"");
+                    JSONObject data = orderApi.createOrder(total+ "");
 
 //                    lblZpTransToken.setVisibility(View.VISIBLE);
                     String code = data.getString("return_code");
@@ -90,19 +115,44 @@ public class OrderPaymentActivity extends AppCompatActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        new AlertDialog.Builder(OrderPaymentActivity.this).setTitle("Payment Success").setMessage(String.format("TransactionId: %s - TransToken: %s", transactionId, transToken)).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+                                        BookingService apiService = ApiClient.getRetrofitInstance().create(BookingService.class);
+                                        BookingService.UpdateBookingStatusRequest request = new BookingService.UpdateBookingStatusRequest(orderId, 2);
+                                        Call<BookingService.ResAllDTO> call = apiService.updateBookingStatus(request);
+                                        call.enqueue(new Callback<BookingService.ResAllDTO>() {
                                             @Override
-                                            public void onClick(DialogInterface dialog, int which) {
+                                            public void onResponse(Call<BookingService.ResAllDTO> call, Response<BookingService.ResAllDTO> response) {
+                                                Log.d("callAPI", "Done");
+                                                if (response.isSuccessful() && response.body() != null) {
+                                                    Log.d("callAPI", "Done");
+                                                    Intent intentSuccess = new Intent(OrderPaymentActivity.this, PaymentNotification.class);
+                                                    intentSuccess.putExtra("result", "Thanh toán thành công");
+                                                    startActivity(intentSuccess);
+                                                } else {
+                                                    Log.e("callAPI", "Lỗi khi cập nhật trạng thái: " + response.message());
+                                                    Toast.makeText(OrderPaymentActivity.this, "Lỗi khi cập nhật trạng thái", Toast.LENGTH_SHORT).show();
+                                                }
                                             }
-                                        }).setNegativeButton("Cancel", null).show();
+
+                                            @Override
+                                            public void onFailure(Call<BookingService.ResAllDTO> call, Throwable t) {
+                                                // Handle the error
+                                                Toast.makeText(OrderPaymentActivity.this, "Lỗi khi cập nhật trạng thái: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                                Log.d("callAPI", t.getMessage());
+                                            }
+                                        });
+//                                        new AlertDialog.Builder(OrderPaymentActivity.this).setTitle("Payment Success").setMessage(String.format("TransactionId: %s - TransToken: %s", transactionId, transToken)).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(DialogInterface dialog, int which) {
+//                                            }
+//                                        }).setNegativeButton("Cancel", null).show();
                                     }
 
                                 });
                                 IsLoading();
 
-                                Intent intentSuccess = new Intent(OrderPaymentActivity.this, PaymentNotification.class);
-                                intentSuccess.putExtra("result", "Thanh toán thành công");
-                                startActivity(intentSuccess);
+
+
                             }
 
                             @Override
@@ -112,7 +162,7 @@ public class OrderPaymentActivity extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog, int which) {
                                     }
                                 }).setNegativeButton("Cancel", null).show();
-                                Toast.makeText(getApplicationContext(), "Thanh toán thất bại", Toast.LENGTH_LONG).show();
+                                Toast.makeText(OrderPaymentActivity.this, "Thanh toán thất bại", Toast.LENGTH_LONG).show();
 //                                Intent intentCanceled = new Intent(OrderPaymentActivity.this, PaymentNotification.class);
 //                                intentCanceled.putExtra("result", "Thanh toán thất bại");
 //                                startActivity(intentCanceled);
@@ -125,7 +175,7 @@ public class OrderPaymentActivity extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog, int which) {
                                     }
                                 }).setNegativeButton("Cancel", null).show();
-                                Toast.makeText(getApplicationContext(), "Thanh toán thất bại", Toast.LENGTH_LONG).show();
+                                Toast.makeText(OrderPaymentActivity.this, "Thanh toán thất bại", Toast.LENGTH_LONG).show();
 //                                Intent intentCanceled = new Intent(OrderPaymentActivity.this, PaymentNotification.class);
 //                                intentCanceled.putExtra("result", "Thanh toán thất bại");
 //                                startActivity(intentCanceled);
@@ -143,12 +193,61 @@ public class OrderPaymentActivity extends AppCompatActivity {
 
     }
 
+
+    private void loadOrderDetails(String orderId) {
+        BookingService apiService = ApiClient.getRetrofitInstance().create(BookingService.class);
+
+        Call<BookingService.ResDTO> call = apiService.getBookingDetail(orderId);
+        call.enqueue(new Callback<BookingService.ResDTO>() {
+            @Override
+            public void onResponse(Call<BookingService.ResDTO> call, Response<BookingService.ResDTO> response) {
+                Log.d("callAPI", "Done");
+                if (response.isSuccessful() && response.body() != null) {
+
+                    loadingData(response.body().result);
+                }
+                Log.d("callAPI", "Done");
+
+            }
+
+            @Override
+            public void onFailure(Call<BookingService.ResDTO> call, Throwable t) {
+                // Handle the error
+                Log.d("callAPI", t.getMessage());
+            }
+        });
+    }
+
     private void IsDone() {
         btnPay.setVisibility(View.VISIBLE);
     }
 
     private void IsLoading() {
         btnPay.setVisibility(View.INVISIBLE);
+    }
+
+    private void loadingData(BookingService.BookingDetailDTO order) {
+        userName.setText("Người đặt vé: " + order.userName);
+        hallName.setText("Phòng: " + order.hallName);
+        movieName.setText("Phim: " + order.movieName);
+        showDate.setText("Ngày chiếu: " + Utils.formatDateTime(order.showDate));
+        bookingDate.setText("Ngày đặt: " + Utils.formatDateTime(order.bookingDate));
+        status.setText("Tình trạng: " + order.status);
+        totalPrice.setText("Tổng cộng: " + order.totalPrice + " VNĐ");
+        total = order.totalPrice;
+
+        fabDetailList.clear();
+        fabDetailList.addAll(order.fabDetails);
+        if (order.fabDetails.size() > 0) {
+            nonFab.setVisibility(View.GONE);
+        } else {
+            nonFab.setVisibility(View.VISIBLE);
+        }
+        fabDetailAdapter.notifyDataSetChanged();
+//
+        seatDetailList.clear();
+        seatDetailList.addAll(order.seatNames);
+        seatShowAdapter.notifyDataSetChanged();
     }
 
     @Override

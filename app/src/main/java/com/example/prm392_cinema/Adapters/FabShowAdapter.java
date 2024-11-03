@@ -33,7 +33,7 @@ public class FabShowAdapter extends RecyclerView.Adapter<FabShowAdapter.FabDetai
         BookingService.FabDetail fabDetail = fabDetails.get(position);
         holder.txtFoodName.setText(fabDetail.foodName);
         holder.txtAmount.setText("Số lượng: " + fabDetail.amount);
-        holder.txtPrice.setText("Giá: " + fabDetail.price + " VNĐ");
+        holder.txtPrice.setText(fabDetail.price + " VNĐ");
     }
 
     @Override

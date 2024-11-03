@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.prm392_cinema"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -47,4 +47,7 @@ dependencies {
     implementation("commons-codec:commons-codec:1.14")
     implementation("com.google.android.material:material:1.4.0")
     implementation("com.github.bumptech.glide:glide:4.12.0")
+    implementation(libs.flexbox)
+    implementation(libs.exoplayer)
+    implementation (libs.picasso)
 }
