@@ -19,21 +19,25 @@
             android:name=".SignupActivity"
             android:exported="false" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".HistoryOrder"
             android:exported="false" />
         <activity
-            android:name=".HallActivity"
-            android:exported="false" />
+            android:name=".MovieDetailActivity"
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".MovieDetailActivity"
-            android:exported="true">
-
-        </activity>
+            android:name=".HallActivity"
+            android:exported="true" />
+        <activity
+            android:name=".PaymentNotification"
+            android:exported="true" />
         <activity
             android:name=".LoginActivity"
+            android:exported="true" />
+        <activity
+            android:name=".HomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

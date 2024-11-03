@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:fontFamily="sans-serif-medium"
-        android:text="Người đặt vé: user1"
+        android:text="Người đặt vé: user"
         android:textColor="#000000"
         android:textSize="20sp" />
 
@@ -58,7 +58,7 @@
         android:layout_marginBottom="8dp"
         android:text="Ngày chiếu: 21/11/2024 16:24"
         android:textColor="#555555"
-        android:textSize="16sp" />
+        android:textSize="18sp" />
 
     <!-- Ngày đặt -->
     <TextView
@@ -68,43 +68,43 @@
         android:layout_marginBottom="8dp"
         android:text="Ngày đặt: 02/11/2024 21:50"
         android:textColor="#555555"
-        android:textSize="16sp" />
+        android:textSize="18sp" />
 
-    <!-- Tên ghế -->
-    <TextView
-        android:id="@+id/txtSeatNames"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/seatRecyclerViewOrder"
+        android:layout_width="412dp"
+        android:layout_height="143dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/seat_background"
-        android:backgroundTint="#FF03DAC5"
-        android:gravity="center"
-        android:padding="8dp"
-        android:text="Ghế: A01"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp" />
+        android:background="#FFFFFF"
+        android:padding="8dp" />
 
-    <!-- Chi tiết thực phẩm -->
     <TextView
         android:id="@+id/txtFoodDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:fontFamily="sans-serif-medium"
-        android:text="Chi tiết thực phẩm:"
+        android:text="Chi tiết bắp và nước:"
         android:textColor="#004D40"
         android:textSize="20sp" />
 
     <!-- Danh sách thực phẩm -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/fabRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:id="@+id/fabRecyclerViewOrder"
+        android:layout_width="419dp"
+        android:layout_height="164dp"
         android:layout_marginBottom="16dp"
         android:background="#FFFFFF"
         android:padding="8dp" />
 
     <!-- Tình trạng thanh toán -->
+    <TextView
+        android:id="@+id/nonFAB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Không có" />
+
     <TextView
         android:id="@+id/status"
         android:layout_width="wrap_content"

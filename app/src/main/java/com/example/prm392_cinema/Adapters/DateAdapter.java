@@ -1,12 +1,9 @@
 package com.example.prm392_cinema.Adapters;
 
-import static android.widget.LinearLayout.VERTICAL;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm392_cinema.R;
-import com.example.prm392_cinema.Utils.DateGroup;
+import com.example.prm392_cinema.DateUtils.DateGroup;
 
 import java.util.List;
 
