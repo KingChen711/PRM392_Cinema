@@ -2,6 +2,7 @@ package com.example.prm392_cinema;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -21,8 +22,10 @@ import com.example.prm392_cinema.Adapters.SeatAdapter;
 import com.example.prm392_cinema.Models.Fab;
 import com.example.prm392_cinema.Models.Seat;
 import com.example.prm392_cinema.Services.ApiClient;
+import com.example.prm392_cinema.Services.BookingService;
 import com.example.prm392_cinema.Services.FabService;
 import com.example.prm392_cinema.Services.SeatService;
+import com.example.prm392_cinema.Stores.AuthStore;
 import com.example.prm392_cinema.Stores.HallScreenStore;
 
 import java.util.ArrayList;
@@ -72,6 +75,54 @@ public class HallActivity extends AppCompatActivity {
         fabRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         getFabs();
+
+        findViewById(R.id.orderButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createBooking();
+            }
+        });
+    }
+
+    private void createBooking() {
+        List<Integer> selectedSeats = seatAdapter.getSelectedSeatId();
+
+        if (selectedSeats.isEmpty()) {
+            Toast.makeText(HallActivity.this, "Cần chọn ít nhất 1 ghế.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        HallScreenStore.listSeatId = selectedSeats;
+
+        BookingService bookingService = ApiClient.getRetrofitInstance().create(BookingService.class);
+        Call<BookingService.CreateBookingResponseDto> call = bookingService.createBooking(new BookingService.CreateBookingDto(AuthStore.userId, HallScreenStore.showTimeId, selectedSeats, seatAdapter.getTotalPrice()));
+        call.enqueue(new Callback<BookingService.CreateBookingResponseDto>() {
+            @Override
+            public void onResponse(Call<BookingService.CreateBookingResponseDto> call, Response<BookingService.CreateBookingResponseDto> response) {
+                if (!response.isSuccessful() || response.body() == null) return;
+                int bookingId = response.body().result.data.bookingId;
+
+                FabService fabService = ApiClient.getRetrofitInstance().create(FabService.class);
+                Call call2 = fabService.orderFabs(bookingId, new FabService.OrderFabDto(fabAdapter.getOrderFabDto()));
+                call2.enqueue(new Callback() {
+                    @Override
+                    public void onResponse(Call call, Response response) {
+                        Intent intent = new Intent(HallActivity.this, MovieDetailActivity.class);
+                        intent.putExtra("bookingId", bookingId);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onFailure(Call call, Throwable t) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Call<BookingService.CreateBookingResponseDto> call, Throwable t) {
+
+            }
+        });
     }
 
     private void getSeats(Context context) {
@@ -110,21 +161,6 @@ public class HallActivity extends AppCompatActivity {
                 // Adapter setup
                 seatAdapter = new SeatAdapter(seats);
                 seatRecyclerView.setAdapter(seatAdapter);
-
-                findViewById(R.id.orderButton).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        List<Integer> selectedSeats = seatAdapter.getSelectedSeatId();
-
-                        if (selectedSeats.isEmpty()) {
-                            Toast.makeText(HallActivity.this, "Cần chọn ít nhất 1 ghế.", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-
-                        HallScreenStore.orderFabDto = fabAdapter.getOrderFabDto();
-                        HallScreenStore.listSeatId = selectedSeats;
-                    }
-                });
             }
 
             @Override
@@ -167,13 +203,6 @@ public class HallActivity extends AppCompatActivity {
                 // Adapter setup
                 fabAdapter = new FabAdapter(fabs);
                 fabRecyclerView.setAdapter(fabAdapter);
-
-                findViewById(R.id.orderButton).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Log.d("orderButton", seatAdapter.seatIndexToSelected.toString());
-                    }
-                });
             }
 
             @Override

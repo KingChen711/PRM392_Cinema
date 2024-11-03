@@ -24,6 +24,11 @@ public class SeatAdapter extends RecyclerView.Adapter<SeatAdapter.SeatViewHolder
     private final int BORDER_WIDTH = 6;
     private final List<Seat> seatList;
     public Map<Integer, Boolean> seatIndexToSelected;
+    private int totalPrice = 0;
+
+    public int getTotalPrice() {
+        return totalPrice;
+    }
 
     public SeatAdapter(List<Seat> seatList) {
         this.seatList = seatList;
@@ -50,10 +55,12 @@ public class SeatAdapter extends RecyclerView.Adapter<SeatAdapter.SeatViewHolder
             if (seat.isAvailable()) {
                 // Đổi trạng thái từ "có sẵn" sang "đã chọn"
                 this.seatIndexToSelected.put(seat.getSeatId(), true);
+                totalPrice += seat.getPrice();
                 seat.setStatus(Seat.STATUS_SELECTED);
             } else if (seat.isSelected()) {
                 // Đổi trạng thái từ "đã chọn" sang "trống"
                 this.seatIndexToSelected.remove(seat.getSeatId());
+                totalPrice -= seat.getPrice();
                 seat.setStatus(Seat.STATUS_AVAILABLE);
             }
             // Cập nhật lại view khi ghế được chọn
@@ -86,12 +93,12 @@ public class SeatAdapter extends RecyclerView.Adapter<SeatAdapter.SeatViewHolder
         }
     }
 
-    public List<Integer> getSelectedSeatId(){
+    public List<Integer> getSelectedSeatId() {
         List<Integer> result = new ArrayList<>();
         for (Map.Entry<Integer, Boolean> entry : seatIndexToSelected.entrySet()) {
             Integer key = entry.getKey();
             Boolean value = entry.getValue();
-            if(!value) continue;
+            if (!value) continue;
             result.add(key);
         }
         return result;
