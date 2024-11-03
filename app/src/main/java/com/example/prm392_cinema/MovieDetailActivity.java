@@ -58,8 +58,11 @@ public class MovieDetailActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.datesRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        getMovieDetail();
-        getShowtimes(this);
+        if (getIntent() == null) return;
+
+        int movieId = getIntent().getIntExtra("movieId", 0);
+        getMovieDetail(movieId);
+        getShowtimes(this, movieId);
     }
 
     private void showVideoPopup(String videoUrl) {
@@ -85,11 +88,11 @@ public class MovieDetailActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void getMovieDetail() {
+    private void getMovieDetail(int movieId) {
         MovieService apiService = ApiClient.getRetrofitInstance().create(MovieService.class);
 
         // Call API with a query parameter
-        Call<MovieService.MovieDto> call = apiService.getMovieDetail(1);  // Pass `id` as 1
+        Call<MovieService.MovieDto> call = apiService.getMovieDetail(movieId);  // Pass `id` as 1
         call.enqueue(new Callback<MovieService.MovieDto>() {
             @Override
             public void onResponse(Call<MovieService.MovieDto> call, Response<MovieService.MovieDto> response) {
@@ -105,7 +108,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                 ((TextView) findViewById(R.id.duration)).setText("Thời lượng: " + res.duration + " phút");
                 ((TextView) findViewById(R.id.rating)).setText(res.rating + "");
                 ((TextView) findViewById(R.id.genre)).setText("Thể loại: " + res.genre);
-                Picasso.get().load(res.posterUrl).into((ImageView)findViewById(R.id.movieImg));
+                Picasso.get().load(res.posterUrl).into((ImageView) findViewById(R.id.movieImg));
 
 //                LinearLayout buttonTrailer = findViewById(R.id.btnTrailer);
 //                buttonTrailer.setOnClickListener(new View.OnClickListener() {
@@ -124,13 +127,13 @@ public class MovieDetailActivity extends AppCompatActivity {
         });
     }
 
-    private void getShowtimes(Context context) {
+    private void getShowtimes(Context context, int movieId) {
         List<Showtime> showtimes = new ArrayList<>();
 
         MovieService apiService = ApiClient.getRetrofitInstance().create(MovieService.class);
 
         // Call API with a query parameter
-        Call<MovieService.GetShowtimesResponse> call = apiService.getShowtimes(1);  // Pass `id` as 1
+        Call<MovieService.GetShowtimesResponse> call = apiService.getShowtimes(movieId);  // Pass `id` as 1
         call.enqueue(new Callback<MovieService.GetShowtimesResponse>() {
             @Override
             public void onResponse(Call<MovieService.GetShowtimesResponse> call, Response<MovieService.GetShowtimesResponse> response) {
