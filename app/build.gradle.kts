@@ -37,7 +37,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
-    implementation(files("E:\\FALL2024\\PRM392\\Cinema_UI\\PRM392_Cinema\\zpdk-release-v3.1.aar"))
+    implementation(files("D:\\code\\PRM\\zpdk-release-v3.1.aar"))
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -47,4 +47,7 @@ dependencies {
     implementation("commons-codec:commons-codec:1.14")
     implementation("com.google.android.material:material:1.4.0")
     implementation("com.github.bumptech.glide:glide:4.12.0")
+    implementation(libs.flexbox)
+    implementation(libs.exoplayer)
+    implementation (libs.picasso)
 }

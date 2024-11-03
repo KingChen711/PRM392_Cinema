@@ -1,18 +1,17 @@
 package com.example.prm392_cinema;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,7 +23,7 @@ import com.example.prm392_cinema.Models.Seat;
 import com.example.prm392_cinema.Services.ApiClient;
 import com.example.prm392_cinema.Services.FabService;
 import com.example.prm392_cinema.Services.SeatService;
-import com.example.prm392_cinema.Stores.HallScreen;
+import com.example.prm392_cinema.Stores.HallScreenStore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +44,8 @@ public class HallActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_hall);
 
-        ((TextView) findViewById(R.id.hallTitle)).setText("CHỌN GHẾ - RẠP " + HallScreen.hallNumber);
+        ((TextView) findViewById(R.id.hallTitle)).setText("CHỌN GHẾ - " + HallScreenStore.hallName);
+        ((TextView) findViewById(R.id.showTime)).setText(HallScreenStore.showTime);
 
         GradientDrawable backgroundNormalExplain = (GradientDrawable) findViewById(R.id.normalExplain).getBackground();
         backgroundNormalExplain.setColor(Color.rgb(255, 255, 255));
@@ -65,11 +65,7 @@ public class HallActivity extends AppCompatActivity {
 
         seatRecyclerView = findViewById(R.id.seatRecyclerView);
 
-        // Setup GridLayoutManager for horizontal and vertical scrolling
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 16); // 16 columns
-        seatRecyclerView.setLayoutManager(gridLayoutManager);
-
-        getSeats();
+        getSeats(this);
 
 
         fabRecyclerView = findViewById(R.id.fabRecyclerView);
@@ -78,13 +74,13 @@ public class HallActivity extends AppCompatActivity {
         getFabs();
     }
 
-    private void getSeats() {
+    private void getSeats(Context context) {
         List<Seat> seats = new ArrayList<>();
 
         SeatService apiService = ApiClient.getRetrofitInstance().create(SeatService.class);
 
         // Call API with a query parameter
-        Call<List<SeatService.SeatResponseDto>> call = apiService.getSeats(HallScreen.showTimeId);  // Pass `id` as 1
+        Call<List<SeatService.SeatResponseDto>> call = apiService.getSeats(HallScreenStore.showTimeId);  // Pass `id` as 1
         call.enqueue(new Callback<List<SeatService.SeatResponseDto>>() {
             @Override
             public void onResponse(Call<List<SeatService.SeatResponseDto>> call, Response<List<SeatService.SeatResponseDto>> response) {
@@ -92,16 +88,25 @@ public class HallActivity extends AppCompatActivity {
                 Log.d("callAPI", "Done");
                 Log.d("callAPI", "Done");
                 Log.d("callAPI", "Done");
+                int colSpan = 0;
+
                 if (response.isSuccessful()) {
                     List<SeatService.SeatResponseDto> rows = response.body();
 
                     for (SeatService.SeatResponseDto row : rows) {
+                        if (colSpan == 0) {
+                            colSpan = row.rowSeats.size();
+                        }
                         for (SeatService.SeatResponseDto.RowSeat seat : row.rowSeats) {
                             seats.add(new Seat(seat.seatId, seat.seatType, seat.price, seat.isSeat, seat.name, seat.isSold, seat.colIndex, seat.seatIndex));
                         }
                     }
                 }
-                Log.d("callAPI", "Done");
+
+                // Setup GridLayoutManager for horizontal and vertical scrolling
+                GridLayoutManager gridLayoutManager = new GridLayoutManager(context, colSpan); // 16 columns
+                seatRecyclerView.setLayoutManager(gridLayoutManager);
+
                 // Adapter setup
                 seatAdapter = new SeatAdapter(seats);
                 seatRecyclerView.setAdapter(seatAdapter);
@@ -111,14 +116,13 @@ public class HallActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         List<Integer> selectedSeats = seatAdapter.getSelectedSeatId();
 
-                        if(selectedSeats.isEmpty())
-                        {
+                        if (selectedSeats.isEmpty()) {
                             Toast.makeText(HallActivity.this, "Cần chọn ít nhất 1 ghế.", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
-                        HallScreen.orderFabDto = fabAdapter.getOrderFabDto();
-                        HallScreen.listSeatId = selectedSeats;
+                        HallScreenStore.orderFabDto = fabAdapter.getOrderFabDto();
+                        HallScreenStore.listSeatId = selectedSeats;
                     }
                 });
             }
@@ -134,8 +138,8 @@ public class HallActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        HallScreen.orderFabDto = null;
-        HallScreen.listSeatId = new ArrayList<>();
+        HallScreenStore.orderFabDto = null;
+        HallScreenStore.listSeatId = new ArrayList<>();
     }
 
     private void getFabs() {
@@ -156,7 +160,7 @@ public class HallActivity extends AppCompatActivity {
                     FabService.GetFabsResponseDto res = response.body();
 
                     for (FabService.FabDto fab : res.result.fABList) {
-                        fabs.add(new Fab(fab.foodId,fab.name,fab.description,fab.price));
+                        fabs.add(new Fab(fab.foodId, fab.name, fab.description, fab.price));
                     }
                 }
                 Log.d("callAPI", "Done");
