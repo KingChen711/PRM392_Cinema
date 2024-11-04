@@ -38,7 +38,7 @@ public class SeatShowAdapter extends RecyclerView.Adapter<SeatShowAdapter.ViewHo
         Log.d("CALL", seat.seatNumber);
         holder.txtSeatName.setText(seat.seatNumber);
         holder.typeName.setText(seat.seatType);
-        holder.price.setText(seat.seatPrice + " VND");
+        holder.price.setText((seat.seatPrice + (seat.seatType.equals("Ghế VIP") ? 10000 : 0)) + " VND");
 
         GradientDrawable background = (GradientDrawable) holder.seatStyle.getBackground();
 
