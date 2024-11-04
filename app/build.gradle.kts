@@ -1,3 +1,5 @@
+import org.gradle.internal.impldep.bsh.commands.dir
+
 plugins {
     alias(libs.plugins.android.application)
 }
@@ -37,7 +39,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
-    implementation(files("D:\\code\\PRM\\zpdk-release-v3.1.aar"))
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar"))))
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

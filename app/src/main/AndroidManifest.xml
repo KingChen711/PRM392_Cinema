@@ -20,6 +20,14 @@
             android:exported="false" />
         <activity
             android:name=".HistoryOrder"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".HomeActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
@@ -38,13 +46,15 @@
             android:exported="true" />
         <activity
             android:name=".OrderPaymentActivity"
-            android:exported="true" />
-        <activity
-            android:name=".HomeActivity"
+            android:launchMode="singleTask"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="app"
+                    android:scheme="demozpdk" />
             </intent-filter>
         </activity>
     </application>

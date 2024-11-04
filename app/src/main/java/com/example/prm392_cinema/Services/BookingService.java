@@ -60,13 +60,13 @@ public interface BookingService {
 
     }
 
-    @GET("/api/Booking/{userId}")
+    @GET("/api/Booking/user/{userId}")
     Call<ResAllDTO> getBookings(
             @Path("userId") String userId
     );
 
     @PUT("/api/Booking/update-status-booking")
-    Call<ResAllDTO> updateBookingStatus(
+    Call<ResDTO> updateBookingStatus(
             @Body UpdateBookingStatusRequest request
     );
 
@@ -83,7 +83,7 @@ public interface BookingService {
 
     public class ResAllDTO {
         public boolean success;
-        public BookingDetailAllDTO result;
+        public List<BookingDetailAllDTO> result;
 
     }
 
@@ -111,16 +111,14 @@ public interface BookingService {
     public class BookingDetailAllDTO {
         public int bookingId;
         public String userId;
-        public String hallName;
-        public String movieName;
         public String showTimeId;
         public String bookingDate;
-        public List<SeatDetail> bookingSeats;
-        public List<FabDetail> bookingFoodBeverages;
+        public ArrayList<SeatDetail> bookingSeats;
+        public ArrayList<FabDetail> bookingFoodBeverages;
         public String status;
         public int totalPrice;
         public int movieId;
-        public Movie movie;
+
         public UserDetail user;
         public ShowTimeDetail showtime;
 
@@ -154,6 +152,7 @@ public interface BookingService {
     public class ShowTimeDetail {
         public String showDate;
         public HallDetail hall;
+        public Movie movie;
 
 
         public class HallDetail {

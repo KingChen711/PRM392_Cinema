@@ -82,9 +82,9 @@ public class OrderPaymentActivity extends AppCompatActivity {
         recyclerSeat.setAdapter(seatShowAdapter);
         btnPay = findViewById(R.id.buttonThanhToan);
 
-//        if (getIntent() == null) return;
-//        orderId = getIntent().getStringExtra("orderId");
-        orderId="13";
+        if (getIntent() == null) return;
+        orderId = getIntent().getStringExtra("orderId");
+//        orderId="13";
 
         loadOrderDetails(orderId);
 
@@ -116,10 +116,10 @@ public class OrderPaymentActivity extends AppCompatActivity {
 
                                         BookingService apiService = ApiClient.getRetrofitInstance().create(BookingService.class);
                                         BookingService.UpdateBookingStatusRequest request = new BookingService.UpdateBookingStatusRequest(orderId, 2);
-                                        Call<BookingService.ResAllDTO> call = apiService.updateBookingStatus(request);
-                                        call.enqueue(new Callback<BookingService.ResAllDTO>() {
+                                        Call<BookingService.ResDTO> call = apiService.updateBookingStatus(request);
+                                        call.enqueue(new Callback<BookingService.ResDTO>() {
                                             @Override
-                                            public void onResponse(Call<BookingService.ResAllDTO> call, Response<BookingService.ResAllDTO> response) {
+                                            public void onResponse(Call<BookingService.ResDTO> call, Response<BookingService.ResDTO> response) {
                                                 Log.d("callAPI", "Done");
                                                 if (response.isSuccessful() && response.body() != null) {
                                                     Log.d("callAPI", "Done");
@@ -133,7 +133,7 @@ public class OrderPaymentActivity extends AppCompatActivity {
                                             }
 
                                             @Override
-                                            public void onFailure(Call<BookingService.ResAllDTO> call, Throwable t) {
+                                            public void onFailure(Call<BookingService.ResDTO> call, Throwable t) {
                                                 // Handle the error
                                                 Toast.makeText(OrderPaymentActivity.this, "Lỗi khi cập nhật trạng thái: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                                                 Log.d("callAPI", t.getMessage());
@@ -250,14 +250,26 @@ public class OrderPaymentActivity extends AppCompatActivity {
     }
 
     private void loadingData(BookingService.BookingDetailDTO order) {
+        String statusValue;
+        if (order.status.equals("Paid")) {
+            Log.d("PAYMENT", "");
+            btnPay.setVisibility(View.GONE);
+            statusValue = "Đã thanh toán";
+
+        } else if (order.status.equals("Processing")) {
+            statusValue = "Đang tiến hành";
+        } else {
+            statusValue = "Đã hủy";
+        }
         userName.setText("Người đặt vé: " + order.userName);
         hallName.setText("Phòng: " + order.hallName);
         movieName.setText("Phim: " + order.movieName);
         showDate.setText("Ngày chiếu: " + Utils.formatDateTime(order.showDate));
         bookingDate.setText("Ngày đặt: " + Utils.formatDateTime(order.bookingDate));
-        status.setText("Tình trạng: " + order.status);
+        status.setText("Tình trạng: " + statusValue);
         totalPrice.setText("Tổng cộng: " + order.totalPrice + " VNĐ");
         total = order.totalPrice;
+
 
         fabDetailList.clear();
         fabDetailList.addAll(order.fabDetails);
