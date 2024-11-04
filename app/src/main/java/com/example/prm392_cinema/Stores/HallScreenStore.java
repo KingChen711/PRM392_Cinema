@@ -7,6 +7,7 @@ import java.util.List;
 
 public class HallScreenStore {
     public static int showTimeId;
+    public static int movieId;
     public static String hallName;
     public static String showTime;
 

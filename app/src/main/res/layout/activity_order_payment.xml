@@ -16,6 +16,56 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="fill_horizontal|center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:paddingHorizontal="16dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/backIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/arrow_back" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="100dp"
+                android:layout_height="54dp"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/logo" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/btnHistory"
+                    android:layout_width="24dp"
+                    android:src="@drawable/history"
+                    android:layout_marginEnd="12dp"
+                    android:layout_height="24dp"/>
+
+                <ImageView
+                    android:id="@+id/btnSignOut"
+                    android:layout_width="24dp"
+                    android:src="@drawable/sign_out"
+                    android:layout_height="24dp"/>
+            </LinearLayout>
+        </LinearLayout>
+
         <!-- Tiêu đề -->
         <TextView
             android:id="@+id/txt"
