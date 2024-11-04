@@ -66,7 +66,7 @@ public interface BookingService {
     );
 
     @PUT("/api/Booking/update-status-booking")
-    Call<ResAllDTO> updateBookingStatus(
+    Call<ResDTO> updateBookingStatus(
             @Body UpdateBookingStatusRequest request
     );
 

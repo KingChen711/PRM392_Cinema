@@ -114,10 +114,10 @@ public class OrderPaymentActivity extends AppCompatActivity {
 
                                         BookingService apiService = ApiClient.getRetrofitInstance().create(BookingService.class);
                                         BookingService.UpdateBookingStatusRequest request = new BookingService.UpdateBookingStatusRequest(orderId, 2);
-                                        Call<BookingService.ResAllDTO> call = apiService.updateBookingStatus(request);
-                                        call.enqueue(new Callback<BookingService.ResAllDTO>() {
+                                        Call<BookingService.ResDTO> call = apiService.updateBookingStatus(request);
+                                        call.enqueue(new Callback<BookingService.ResDTO>() {
                                             @Override
-                                            public void onResponse(Call<BookingService.ResAllDTO> call, Response<BookingService.ResAllDTO> response) {
+                                            public void onResponse(Call<BookingService.ResDTO> call, Response<BookingService.ResDTO> response) {
                                                 Log.d("callAPI", "Done");
                                                 if (response.isSuccessful() && response.body() != null) {
                                                     Log.d("callAPI", "Done");
@@ -131,7 +131,7 @@ public class OrderPaymentActivity extends AppCompatActivity {
                                             }
 
                                             @Override
-                                            public void onFailure(Call<BookingService.ResAllDTO> call, Throwable t) {
+                                            public void onFailure(Call<BookingService.ResDTO> call, Throwable t) {
                                                 // Handle the error
                                                 Toast.makeText(OrderPaymentActivity.this, "Lỗi khi cập nhật trạng thái: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                                                 Log.d("callAPI", t.getMessage());
