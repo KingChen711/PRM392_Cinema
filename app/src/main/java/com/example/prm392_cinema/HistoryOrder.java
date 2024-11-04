@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.prm392_cinema.Adapters.OrderAdapter;
 import com.example.prm392_cinema.Services.ApiClient;
 import com.example.prm392_cinema.Services.BookingService;
+import com.example.prm392_cinema.Stores.AuthStore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +52,41 @@ public class HistoryOrder extends AppCompatActivity {
             loadData(userId);
         }
 
+        findViewById(R.id.btnSignOut).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleSignOut();
+            }
+        });
+
+        findViewById(R.id.backIcon).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleBack();
+            }
+        });
+        (findViewById(R.id.btnHistory)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigateHistory();
+            }
+        });
+    }
+
+    private void navigateHistory()
+    {
+
+    }
+
+    private void handleSignOut() {
+        AuthStore.userId = 0;
+        Intent intent = new Intent(HistoryOrder.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+    private void handleBack() {
+        finish(); // Đóng Activity hiện tại và quay lại Activity trước đó
     }
 
     private void loadData(String userId) {

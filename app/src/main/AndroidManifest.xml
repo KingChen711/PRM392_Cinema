@@ -19,7 +19,7 @@
             android:name=".SignupActivity"
             android:exported="false" />
         <activity
-            android:name=".HistoryOrder"
+            android:name=".HomeActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".HomeActivity"
+            android:name=".HistoryOrder"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"

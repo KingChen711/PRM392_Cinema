@@ -110,12 +110,25 @@ public class HomeActivity extends AppCompatActivity {
         });
 
 
-        ((Button) findViewById(R.id.btnSignOut)).setOnClickListener(new View.OnClickListener() {
+        (findViewById(R.id.btnSignOut)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 handleSignOut();
             }
         });
+
+        (findViewById(R.id.btnHistory)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigateHistory();
+            }
+        });
+    }
+
+    private void navigateHistory()
+    {
+        Intent intent = new Intent(HomeActivity.this, HistoryOrder.class);
+        startActivity(intent);
     }
 
     private void handleSignOut() {

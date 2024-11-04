@@ -47,18 +47,18 @@
                 android:gravity="end"
                 android:layout_weight="1">
 
-                <Button
+                <ImageView
+                    android:id="@+id/btnHistory"
+                    android:layout_width="24dp"
+                    android:src="@drawable/history"
+                    android:layout_marginEnd="12dp"
+                    android:layout_height="24dp"/>
+
+                <ImageView
                     android:id="@+id/btnSignOut"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:backgroundTint="#00240101"
-                    android:minWidth="0dp"
-                    android:paddingHorizontal="0dp"
-                    android:text="Đăng xuất"
-                    android:textColor="#f3ea28"
-                    app:iconPadding="40dp"
-                    app:iconSize="0dp" />
+                    android:layout_width="24dp"
+                    android:src="@drawable/sign_out"
+                    android:layout_height="24dp"/>
             </LinearLayout>
         </LinearLayout>
 

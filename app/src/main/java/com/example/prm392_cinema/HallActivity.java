@@ -96,6 +96,18 @@ public class HallActivity extends AppCompatActivity {
                 handleBack();
             }
         });
+        (findViewById(R.id.btnHistory)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigateHistory();
+            }
+        });
+    }
+
+    private void navigateHistory()
+    {
+        Intent intent = new Intent(HallActivity.this, HistoryOrder.class);
+        startActivity(intent);
     }
 
     private void handleSignOut() {
@@ -108,7 +120,8 @@ public class HallActivity extends AppCompatActivity {
     private void handleBack() {
         Intent intent = new Intent(HallActivity.this, MovieDetailActivity.class);
         intent.putExtra("movieId", HallScreenStore.movieId);
-        startActivity(intent);
+        setResult(RESULT_OK, intent);
+        finish(); // Đóng Activity hiện tại và quay lại Activity trước đó
     }
 
     private void navigateToPaymentScreen(int bookingId) {

@@ -68,6 +68,18 @@ public class MovieDetailActivity extends AppCompatActivity {
                 handleBack();
             }
         });
+        (findViewById(R.id.btnHistory)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigateHistory();
+            }
+        });
+    }
+
+    private void navigateHistory()
+    {
+        Intent intent = new Intent(MovieDetailActivity.this, HistoryOrder.class);
+        startActivity(intent);
     }
 
     private void handleSignOut() {
@@ -78,8 +90,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
 
     private void handleBack() {
-        Intent intent = new Intent(MovieDetailActivity.this, HomeActivity.class);
-        startActivity(intent);
+        finish(); // Đóng Activity hiện tại và quay lại Activity trước đó
     }
 
     private void showVideoPopup(String videoUrl) {
