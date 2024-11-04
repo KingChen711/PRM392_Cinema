@@ -2,9 +2,12 @@ package com.example.prm392_cinema;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +21,8 @@ import com.example.prm392_cinema.Models.Showtime;
 import com.example.prm392_cinema.Services.ApiClient;
 import com.example.prm392_cinema.Services.MovieService;
 import com.example.prm392_cinema.DateUtils.DateGroup;
+import com.example.prm392_cinema.Stores.AuthStore;
+import com.example.prm392_cinema.Stores.HallScreenStore;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.ui.PlayerControlView;
@@ -46,8 +51,35 @@ public class MovieDetailActivity extends AppCompatActivity {
         if (getIntent() == null) return;
 
         int movieId = getIntent().getIntExtra("movieId", 0);
+        HallScreenStore.movieId = movieId;
         getMovieDetail(movieId);
         getShowtimes(this, movieId);
+
+        findViewById(R.id.btnSignOut).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleSignOut();
+            }
+        });
+
+        findViewById(R.id.backIcon).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleBack();
+            }
+        });
+    }
+
+    private void handleSignOut() {
+        AuthStore.userId = 0;
+        Intent intent = new Intent(MovieDetailActivity.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+    private void handleBack() {
+        Intent intent = new Intent(MovieDetailActivity.this, HomeActivity.class);
+        startActivity(intent);
     }
 
     private void showVideoPopup(String videoUrl) {

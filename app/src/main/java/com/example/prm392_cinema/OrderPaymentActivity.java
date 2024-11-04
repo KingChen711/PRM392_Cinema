@@ -24,6 +24,8 @@ import com.example.prm392_cinema.Payment.Api.CreateOrder;
 import com.example.prm392_cinema.Services.ApiClient;
 import com.example.prm392_cinema.Services.BookingService;
 import com.example.prm392_cinema.Services.MovieService;
+import com.example.prm392_cinema.Stores.AuthStore;
+import com.example.prm392_cinema.Stores.HallScreenStore;
 
 import org.json.JSONObject;
 
@@ -186,6 +188,32 @@ public class OrderPaymentActivity extends AppCompatActivity {
         });
 
 
+        findViewById(R.id.btnSignOut).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleSignOut();
+            }
+        });
+
+        findViewById(R.id.backIcon).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleBack();
+            }
+        });
+    }
+
+    private void handleSignOut() {
+        AuthStore.userId = 0;
+        Intent intent = new Intent(OrderPaymentActivity.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+    private void handleBack() {
+        Intent intent = new Intent(OrderPaymentActivity.this, HallActivity.class);
+        intent.putExtra("movieId", HallScreenStore.movieId);
+        startActivity(intent);
     }
 
 

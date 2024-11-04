@@ -30,6 +30,7 @@ import com.example.prm392_cinema.Adapters.MovieAdapter;
 import com.example.prm392_cinema.Models.Movie;
 import com.example.prm392_cinema.Services.ApiClient;
 import com.example.prm392_cinema.Services.MovieService;
+import com.example.prm392_cinema.Stores.AuthStore;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -102,12 +103,26 @@ public class HomeActivity extends AppCompatActivity {
         handler.postDelayed(runnable, 3000);
 
         filterButton = findViewById(R.id.filterButton);
-        filterButton.setOnClickListener(v->  {
+        filterButton.setOnClickListener(v -> {
             String selectedGenre = genreSpinner.getSelectedItem().toString();
             String selectedLanguage = languageSpinner.getSelectedItem().toString();
-            getMovies(selectedGenre,selectedLanguage);
+            getMovies(selectedGenre, selectedLanguage);
         });
 
+
+        ((Button) findViewById(R.id.btnSignOut)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleSignOut();
+            }
+        });
+    }
+
+    private void handleSignOut() {
+        AuthStore.userId = 0;
+        Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
     @Override
@@ -118,7 +133,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void setupGenreSpinner() {
         // Các giá trị mẫu cho genre
-        String[] genres = {"Tất cả","Hành động",
+        String[] genres = {"Tất cả", "Hành động",
                 "Phiêu lưu",
                 "Kịch",
                 "Giả tưởng",
@@ -135,7 +150,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void setupLanguageSpinner() {
         // Các giá trị mẫu cho language
-        String[] languages = {"Tất cả","Tiếng Anh", "Tiếng Tây Ban Nha", "Tiếng Pháp", "Tiếng Đức", "Tiếng Nhật", "Tiếng Hàn", "Tiếng Thái", "Tiếng Việt"};
+        String[] languages = {"Tất cả", "Tiếng Anh", "Tiếng Tây Ban Nha", "Tiếng Pháp", "Tiếng Đức", "Tiếng Nhật", "Tiếng Hàn", "Tiếng Thái", "Tiếng Việt"};
         ArrayAdapter<String> languageAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, languages);
         languageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         languageSpinner.setAdapter(languageAdapter);
@@ -154,14 +169,13 @@ public class HomeActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     noMovie.setVisibility(View.GONE);
 
-                    if (response.body().size() == 0){
+                    if (response.body().size() == 0) {
                         noMovie.setVisibility(View.VISIBLE);
                     }
                     movies.clear();
                     movies.addAll(response.body());
                     movieAdapter.notifyDataSetChanged();
-                }
-                else {
+                } else {
                     noMovie.setVisibility(View.VISIBLE);
                     Toast.makeText(HomeActivity.this, "Không tìm thấy phim phù hợp", Toast.LENGTH_SHORT).show();
                 }
@@ -178,6 +192,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
     }
+
     private void getTopMovies() {
 
         MovieService apiService = ApiClient.getRetrofitInstance().create(MovieService.class);
@@ -189,7 +204,7 @@ public class HomeActivity extends AppCompatActivity {
                 Log.d("callAPI", "Done");
                 if (response.isSuccessful() && response.body() != null) {
                     List<Movie> movies = response.body();
-                    if (movies.size() == 0){
+                    if (movies.size() == 0) {
                         return;
                     }
                     Collections.sort(movies, (m1, m2) -> Float.compare(m2.getRating(), m1.getRating()));

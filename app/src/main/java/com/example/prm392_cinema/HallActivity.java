@@ -39,6 +39,7 @@ public class HallActivity extends AppCompatActivity {
     private SeatAdapter seatAdapter;
     private FabAdapter fabAdapter;
     private RecyclerView seatRecyclerView, fabRecyclerView;
+    private int movieId;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -82,10 +83,35 @@ public class HallActivity extends AppCompatActivity {
                 createBooking();
             }
         });
+        findViewById(R.id.btnSignOut).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleSignOut();
+            }
+        });
+
+        findViewById(R.id.backIcon).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleBack();
+            }
+        });
     }
 
-    private void navigateToPaymentScreen(int bookingId)
-    {
+    private void handleSignOut() {
+        AuthStore.userId = 0;
+        Intent intent = new Intent(HallActivity.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+    private void handleBack() {
+        Intent intent = new Intent(HallActivity.this, MovieDetailActivity.class);
+        intent.putExtra("movieId", HallScreenStore.movieId);
+        startActivity(intent);
+    }
+
+    private void navigateToPaymentScreen(int bookingId) {
         Intent intent = new Intent(HallActivity.this, OrderPaymentActivity.class);
         intent.putExtra("orderId", bookingId + "");
         startActivity(intent);
