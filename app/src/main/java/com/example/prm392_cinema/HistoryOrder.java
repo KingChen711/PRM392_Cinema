@@ -31,7 +31,7 @@ public class HistoryOrder extends AppCompatActivity {
     private List<BookingService.BookingDetailAllDTO> orderList;
     private ProgressBar progressBar; // Loading indicator
     String userId;
-    String  currentOrderId;
+    String currentOrderId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,7 @@ public class HistoryOrder extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         recyclerViewOrders.setLayoutManager(new LinearLayoutManager(this));
 
-        userId = "1";
+        userId = AuthStore.userId + "";
         orderList = new ArrayList<>();
         orderAdapter = new OrderAdapter(orderList, this);
         recyclerViewOrders.setAdapter(orderAdapter);
@@ -73,8 +73,7 @@ public class HistoryOrder extends AppCompatActivity {
         });
     }
 
-    private void navigateHistory()
-    {
+    private void navigateHistory() {
 
     }
 
